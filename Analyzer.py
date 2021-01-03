@@ -3,10 +3,18 @@ import pymysql
 from datetime import datetime
 from datetime import timedelta
 import re
+import sys
 
 class MarketDB:
-    def __init__(self):
-        self.conn = pymysql.connect(host='localhost', user='hong', password='hong', db='finance', charset='utf8')
+    def __init__(self, target):
+        if target=='KR':
+            target_db='finance'
+        elif target=='global':
+            target_db='finance_global'
+        else:
+            print("wrong argument for choosing DB")
+            sys.exit()
+        self.conn = pymysql.connect(host='localhost', user='hong', password='hong', db=target_db, charset='utf8')
         self.codes={}
         self.get_comp_info()
 
