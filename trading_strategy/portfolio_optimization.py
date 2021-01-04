@@ -58,9 +58,11 @@ max_sharpe = df.loc[df['Sharpe'] == df['Sharpe'].max()]
 min_risk = df.loc[df['Risk'] == df['Risk'].min()]
 
 print('max_shapre >>')
-print(max_sharpe)
+newdf = df.sort_values(by=['Sharpe'],ascending=False)
+print(newdf)
 print('min_risk >>')
-print(min_risk)
+newdf = df.sort_values(by=['Risk'],ascending=True)
+print(newdf)
 
 df.plot.scatter(x='Risk', y='Returns', c='Sharpe', cmap='viridis', edgecolors='k', figsize=(11,7), grid=True)
 plt.scatter(x=max_sharpe['Risk'], y=max_sharpe['Returns'], c='r', marker='*', s=300)
