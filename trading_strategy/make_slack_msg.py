@@ -1,6 +1,7 @@
 import pandas as pd
 from datetime import datetime
 from datetime import timedelta
+import matplotlib.dates as mdates
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -110,9 +111,9 @@ class MakeMessage:
             df = df[19:]
 
             for i in range(0, len(df.close)):
-                if df.index.values[i] > self.target_date and df.PB.values[i] < 0.05 and df.IIP21.values[i] > 0:
+                if df.index.values[i] > self.target_date and df.PB.values[i] > 0.8 and df.MFI10.values[i] > 0:
                     buy_date.append(df.index.values[i].strftime('%Y-%m-%d'))
-                elif df.index.values[i] > self.target_date and df.PB.values[i] > 0.95 and df.IIP21.values[i] < 0:
+                elif df.index.values[i] > self.target_date and df.PB.values[i] < 0.2 and df.MFI10.values[i] < 0:
                     sell_date.append(df.index.values[i].strftime('%Y-%m-%d'))
 
             if len(buy_date)>0:
@@ -150,9 +151,9 @@ class MakeMessage:
             df = df[19:]
 
             for i in range(0, len(df.close)):
-                if df.index.values[i] > self.target_date and df.PB.values[i] < 0.05 and df.IIP21.values[i] > 0:
+                if df.index.values[i] > self.target_date and df.PB.values[i] > 0.8 and df.MFI10.values[i] > 0:
                     buy_date.append(df.index.values[i].strftime('%Y-%m-%d'))
-                elif df.index.values[i] > self.target_date and df.PB.values[i] > 0.95 and df.IIP21.values[i] < 0:
+                elif df.index.values[i] > self.target_date and df.PB.values[i] < 0.2 and df.MFI10.values[i] < 0:
                     sell_date.append(df.index.values[i].strftime('%Y-%m-%d'))
 
             if len(buy_date)>0:
@@ -193,9 +194,9 @@ class MakeMessage:
             df = df.assign(fast_k=fast_k, slow_d=slow_d).dropna()
 
             for i in range(0, len(df.close)):
-                if df.index.values[i] > self.target_date and df.PB.values[i] < 0.05 and df.IIP21.values[i] > 0:
+                if df.index.values[i] > self.target_date and df.ema130.values[i-1] < df.ema130.values[i] and df.slow_d.values[i-1] >= 20 and df.slow_d.values[i] < 20:
                     buy_date.append(df.index.values[i].strftime('%Y-%m-%d'))
-                elif df.index.values[i] > self.target_date and df.PB.values[i] > 0.95 and df.IIP21.values[i] < 0:
+                elif df.index.values[i] > self.target_date and df.ema130.values[i-1] > df.ema130.values[i] and df.slow_d.values[i-1] <= 80 and df.slow_d.values[i] > 80:
                     sell_date.append(df.index.values[i].strftime('%Y-%m-%d'))
 
             if len(buy_date)>0:
@@ -229,9 +230,9 @@ class MakeMessage:
             df = df.assign(fast_k=fast_k, slow_d=slow_d).dropna()
 
             for i in range(0, len(df.close)):
-                if df.index.values[i] > self.target_date and df.PB.values[i] < 0.05 and df.IIP21.values[i] > 0:
+                if df.index.values[i] > self.target_date and df.ema130.values[i-1] < df.ema130.values[i] and df.slow_d.values[i-1] >= 20 and df.slow_d.values[i] < 20:
                     buy_date.append(df.index.values[i].strftime('%Y-%m-%d'))
-                elif df.index.values[i] > self.target_date and df.PB.values[i] > 0.95 and df.IIP21.values[i] < 0:
+                elif df.index.values[i] > self.target_date and df.ema130.values[i-1] > df.ema130.values[i] and df.slow_d.values[i-1] <= 80 and df.slow_d.values[i] > 80:
                     sell_date.append(df.index.values[i].strftime('%Y-%m-%d'))
 
             if len(buy_date)>0:
