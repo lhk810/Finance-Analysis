@@ -49,7 +49,8 @@ class DBUpdater:
             with open('global_list', 'r') as in_file:
                 data = in_file.read().split('\n')
                 for line in data:
-                    target_company.append(line)
+                    if line != '':
+                        target_company.append(line)
         except FileNotFoundError:
             print('Need global list! Exit the program!')
             sys.exit()
@@ -58,6 +59,8 @@ class DBUpdater:
         index = []
         columns = ['code','company']
         rows = []
+
+        print(target_company)
 
         for item in target_company:
             code = item.split(':')[0]

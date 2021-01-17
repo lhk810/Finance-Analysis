@@ -5,6 +5,7 @@ from urllib.request import urlopen
 from datetime import datetime
 from threading import Timer
 import pymysql
+import requests
 
 class DBUpdater:
     def __init__(self):
@@ -101,10 +102,12 @@ class DBUpdater:
             url = f"http://finance.naver.com/item/sise_day.nhn?code={code}"
             with urlopen(url) as doc:
                 if doc is None:
+                    print('doc is None from read_naver()')
                     return None
-                html = BeautifulSoup(doc, "lxml")
+                html = BeautifulSoup(requests.get(url, headers={'User-agent': 'Mozilla/5.0'}).text, "lxml")
                 pgrr = html.find("td", class_="pgRR")
                 if pgrr is None:
+                    print('pgrr is None from read_naver()')
                     return None
                 s = str(pgrr.a["href"]).split('=')
                 lastpage = s[-1]
@@ -112,7 +115,7 @@ class DBUpdater:
             pages = min(int(lastpage), pages_to_fetch)
             for page in range(1, pages+1):
                 pg_url = '{}&page={}'.format(url, page)
-                df = df.append(pd.read_html(pg_url, header=0)[0])
+                df = df.append(pd.read_html(requests.get(pg_url,headers={'User-agent': 'Mozilla/5.0'}).text)[0])
                 tmnow = datetime.now().strftime('%Y-%m-%d %H:%M')
                 print('[{}] {} ({}) : {:04d}/{:04d} pages are downloading...'.format(tmnow, company, code, page, pages), end="\r")
             df = df.rename(columns={'날짜':'date','종가':'close','전일비':'diff','시가':'open','고가':'high','저가':'low','거래량':'volume'})
