@@ -272,6 +272,7 @@ def sell_stop_loss():
                 cpOrder.SetInputValue(7, "1")   # 조건 0:기본, 1:IOC, 2:FOK
                 cpOrder.SetInputValue(8, "12")  # 호가 12:최유리, 13:최우선 
                 ret = cpOrder.BlockRequest()
+                symbol_list.remove(stock_code) #매도 이후 전체 list에서 삭제
                 printlog('최유리 IOC 매도', stock_code, stock_name, stock_qty, 
                     '-> cpOrder.BlockRequest() -> returned', ret)
                 if ret == 4:
