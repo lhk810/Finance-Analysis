@@ -49,7 +49,7 @@ class DBUpdater:
         
         target_company = []
         try:
-            with open('company_list', 'r') as in_file:
+            with open('company_list', 'r', encoding='utf-8') as in_file:
                 data = in_file.read().split('\n')
                 for line in data:
                     target_company.append(line)
