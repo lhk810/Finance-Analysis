@@ -16,6 +16,5 @@ with open('login','r') as file:
     pwd = read[1]
     pwdcert = read[2]
 connect_str = 'C:\CREON\STARTER\coStarter.exe /prj:cp /id:{id} /pwd:{pwd} /pwdcert:{pwdcert} /autostart'.format_map({'id':id, 'pwd':pwd,'pwdcert':pwdcert})
-print(connect_str)
 app.start(connect_str)
 time.sleep(60)
